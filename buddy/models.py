@@ -7,6 +7,8 @@ from django.db.models.signals import post_save
 class Gym(models.Model):
     name = models.CharField(max_length=20)
     number = models.IntegerField(default=0)
+    owner = models.ForeignKey("User",related_name='owner')
+
 
 class Chatroom(models.Model):
     name = models.CharField(max_length=20,unique=True)
@@ -60,6 +62,7 @@ class WeightLifting(models.Model):
     benchpress = models.BooleanField(default=False)
     squats = models.BooleanField(default=False)
     deadlift = models.BooleanField(default=False)
+    weight = models.IntegerField(default=0)
     profile = models.BooleanField(default=False)
 
 
