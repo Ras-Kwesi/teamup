@@ -21,12 +21,15 @@ class Chatroom(models.Model):
     def remove_chatroom(self):
         self.delete()
 
-
     @classmethod
     def get_chatroom(cls,id):
         hood = Chatroom.objects.get(id=id)
         return hood
 
+
+class Member(models.Model):
+    user = models.ForeignKey(User,related_name='member')
+    chatroom = models.ForeignKey(Chatroom,related_name='chatroom')
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -48,6 +51,36 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=30)
+    post = models.TextField(max_length=100)
+    chatroom = models.ForeignKey(Chatroom,related_name='hood')
+    poster = models.ForeignKey(User,on_delete=models.CASCADE)
+
+
+    def save_post(self):
+        self.save()
+
+    def remove_post(self):
+        self.delete()
+
+    @classmethod
+    def get_hood_posts(cls,id):
+        posts = Post.objects.filter(id = id)
+        return posts
+
+class Comment(models.Model):
+    comment = models.CharField(max_length=100)
+    commentator = models.ForeignKey(User)
+    comment_gym = models.ForeignKey(Gym,related_name='comment',null=True)
+
+    def save_comment(self):
+        self.save()
+
+    def delete_comment(self):
+        self.delete()
 
 
 class Run(models.Model):

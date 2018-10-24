@@ -45,26 +45,52 @@ def update(request):
 
 
 @login_required(login_url='/accounts/login/')
-def hood(request,hood_id):
+def chatroom(request,hood_id):
     current_user = request.user
-    hood_name = current_user.profile.hood
+    gym_name = current_user.profile.hood
     # if current_user.profile.hood is None:
     #     return redirect('update')
     # else:
     hood = Post.get_hood_posts(id = hood_id)
     comments = Comment.objects.all()
-    form = NewComment(instance=request.user)
+    form = PostForm()
 
-    return render(request,'hood.html',{'hood':hood,'hood_name':hood_name,'comments':comments,'comment_form':form})
+    return render(request,'hood.html',{'hood':hood,'gym_name':gym_name,'comments':comments,'comment_form':form})
 
-def join(request,id):
+def post(request, id):
+    chatroom = Chatroom.objects.get(id=id)
+    print(id)
+    if request.method == 'POST':
+        post = PostForm(request.POST)
+        if post.is_valid():
+            posting = post.save(commit=False)
+            posting.poster = request.user
+            posting.chatroom = chatroom
+            posting.save()
+            return redirect('index')
+    return redirect('index')
+
+
+def joinchat(request,id):
     current_user = request.user
-    hood_name = current_user.profile.hood
-    hood = Hood.objects.get(id=id)
-    current_user.profile.hood = hood
+    gym_name = current_user.profile.mygym
+    chat = Chatroom.objects.get(id=id)
+    current_user.profile. = hood
     current_user.profile.save()
 
     return redirect('index')
+
+
+def joingym(request,id):
+    current_user = request.user
+    hood_name = current_user.profile.hood
+    chat = Chatroom.objects.get(id=id)
+    current_user.profile. = hood
+    current_user.profile.save()
+
+    return redirect('index')
+
+
 
 def exit(request,id):
     current_user = request.user
