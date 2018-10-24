@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <div class="card">
+        <div class="col-md-4">
+
+            {% if profile.avatar %}
+            <img  class="profpic" src="{{profile.profilepic.url}}" height='400' alt="No Image">
+            {% else %}
+            <div >
+                <img  class="profpic" src="https://www.w3schools.com/howto/img_avatar.png" alt="card image cap">
+            </div>
+
+            {% endif %}
+        </div>
+        <div class="col-md-4 offset-md-7">
+            <div class="row">
+                <h1>Name:{{profile.user.username}}</h1>
+                <h1>Email:{{profile.user.email}}</h1>
+                <!--<a href="" class="btn btn-light" >Edit Profile</a>-->
+            </div>
+        </div>
+        <div class="offset-md-3">
+            <div class="row">
+                <p>{{profile.user.profile.bio}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<h1 class="offset-md-5">Businesses</h1>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        {% if businesses %}
+        {% for business in businesses %}
+
+        <div class="card">
+            <div class="card-header">{{business.name}}"</div>
+            <div class="card-body">
+                <h1 class="card-title">{{business.business_description}}</h1>
+                <a class="btn btn-danger" href="/updatebiz/{{business.id}}">Update</a>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% else %}
+
+        <p>You have no businesses</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
