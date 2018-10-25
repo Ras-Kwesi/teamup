@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 
+{% extends "base.html" %}
+{% block content %}
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +23,7 @@
 
     <form method="post" action="{% url 'update'%}" enctype="multipart/form-data" >
       {% csrf_token %}
+      {% load static %}
       {{ user_form.as_p }}
       {{ profile_form.as_p }}
       <button type="submit">Submit</button>
@@ -32,3 +36,5 @@
 </body>
 
 </html>
+
+{% endblock %}
