@@ -54,6 +54,21 @@ class Profile(models.Model):
         return self.user.username
 
 
+    @classmethod
+    def addchatroom(cls,user,newroom):
+        room, created = cls.objects.get_or_create(
+            user = user
+        )
+        room.chatroom.add(newroom)
+
+    @classmethod
+    def removechatroom(cls, user, newroom):
+        room, created = cls.objects.get_or_create(
+            user=user
+        )
+        room.chatroom.remove(newroom)
+
+
 class Friend(models.Model):
     users = models.ManyToManyField(User)
     current_user = models.ForeignKey(User,related_name="befriend",null=True)
@@ -80,7 +95,7 @@ class Friend(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=30)
     post = models.TextField(max_length=100)
-    chatroom = models.ForeignKey(Chatroom,related_name='hood',null=True)
+    chatroom = models.ForeignKey(Chatroom,related_name='posts',null=True)
     gym = models.ForeignKey(Gym,related_name='gym',null=True)
     poster = models.ForeignKey(User,on_delete=models.CASCADE)
 

@@ -13,13 +13,13 @@
   {{form.media}}
 
 {% block styles %} {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/news.css' %}"> {% endblock %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% endblock %}
 
 </head>
 
 {% block content %}
 <body>
-
+<div class="col-md-6">
   <form  action="{% url 'newgym'%}" method="post" enctype="multipart/form-data">
     {% csrf_token%}
 
@@ -30,7 +30,7 @@
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   {% bootstrap_javascript %} {% endblock %}
-
+</div>
 </body>
 {% endblock %}
 </html>

@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% load bootstrap4 %}
+{% block content %}
+
+{% for chatroom in chatrooms %}
+
+<div class='col-md-6'>
+<a href="/joinchat/{{chatroom.id}}" >Join: {{chatroom.name}}</a>
+</div>
+
+{% endfor %}
+{% endblock %}

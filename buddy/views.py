@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from .models import *
@@ -61,39 +61,64 @@ def update(request):
 
 
 @login_required(login_url='/accounts/login/')
-def chatroom(request,hood_id):
+def chatroom(request,room_id):
     current_user = request.user
-    gym_name = current_user.profile.hood
-    # if current_user.profile.hood is None:
+
+    chatroom = get_object_or_404(Chatroom,pk=room_id)
+    chatrooms = request.user.profile.chatroom.all()
+    print(chatroom)
+
+    if chatroom in chatrooms:
+        r = chatroom
+        return render(request, 'chatroom.html', {'chatroom': r})
+    # for room in chatrooms:
+    #     r = None
+    #     if room == chatroom.id:
+    #         r = room
+    #         print(chatroom.id)
+    #     return r
+    #     print(r)
+
     #     return redirect('update')
     # else:
-    hood = Post.get_hood_posts(id = hood_id)
-    comments = Comment.objects.all()
-    form = PostForm()
+    # hood = Post.get_hood_posts(id = hood_id)
+    posts = Post.objects.filter(chatroom = chatroom)
+    # form = PostForm()
 
-    return render(request,'hood.html',{'hood':hood,'gym_name':gym_name,'comments':comments,'comment_form':form})
+    # return render(request,'chatroom.html',{'chatroom':r})
+
+
+# def post(request, id):
+#     chatroom = Chatroom.objects.get(id=id)
+#     print(id)
+#     if request.method == 'POST':
+#         post = PostForm(request.POST)
+#         if post.is_valid():
+#             posting = post.save(commit=False)
+#             posting.poster = request.user
+#             posting.chatroom = chatroom
+#             posting.save()
+#             return redirect('index')
+#     return redirect('index')
 
 def post(request, id):
     chatroom = Chatroom.objects.get(id=id)
     print(id)
+    # new_post = Post()
     if request.method == 'POST':
-        post = PostForm(request.POST)
-        if post.is_valid():
-            posting = post.save(commit=False)
-            posting.poster = request.user
-            posting.chatroom = chatroom
-            posting.save()
+        newpost = PostF(request.POST)
+        if newpost.is_valid():
+            title = newpost.cleaned_data['post_title']
+            post = newpost.cleaned_data['post_post']
+            new_post = Post(title = title,post=post)
+            new_post.poster = request.user
+            new_post.chatroom = chatroom
+            new_post.save()
             return redirect('index')
     return redirect('index')
 
 
-def joinchat(request,id):
-    current_user = request.user
-    chat = Chatroom.objects.get(id=id)
 
-    current_user.profile.save()
-
-    return redirect('index')
 
 
 def joingym(request,id):
@@ -139,6 +164,12 @@ def exitchatroom(request,id):
     current_user.profile.save()
 
     return redirect('index')
+
+def chatrooms(request):
+    current_user = request.user
+    chatrooms = Chatroom.objects.all()
+
+    return render(request,'chatrooms.html',{'chatrooms':chatrooms})
 
 
 @login_required(login_url='/accounts/login/')
@@ -200,3 +231,12 @@ def change_friends(request,operation,pk):
     elif operation == 'removefriend':
         Friend.removefriend(request.user,new_friend)
 
+
+
+def joinchat(request,id):
+    current_user = request.user
+    chat = Chatroom.objects.get(id=id)
+    current_user.profile.addchatroom(current_user,chat)
+    current_user.profile.save()
+
+    return redirect('index')

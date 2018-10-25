@@ -56,6 +56,16 @@ class PostForm(forms.ModelForm):
         model = Post
         exclude = ['chatroom','poster']
 
+
+class PostF(forms.Form):
+    post_title = forms.CharField(label="Title")
+    post_post = forms.CharField(label='Post goes here....')
+
+
+
+
+
+
 class NewComment(forms.ModelForm):
     class Meta:
         model = Comment

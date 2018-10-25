@@ -12,6 +12,7 @@ urlpatterns=[
     url('^update/$', views.update, name='update'),
     url('^newgym/$', views.newgym, name='newgym'),
     url('^newchatroom/$', views.newchatroom, name='newchatroom'),
+    url('^chatrooms/$', views.chatrooms, name='chatrooms'),
 
     url('^comment/(\d+)', views.comment, name='comment'),
     url('^joinchat/(\d+)', views.joinchat, name='joinchat'),
