@@ -3,23 +3,25 @@
 <div class="row">
 <div class="col-md-6 offset-md-1">
     <div class="card">
+        <div class="row">
         <div class="col-md-4">
 
             {% if profile.avatar %}
-            <img  class="profpic" src="{{profile.profilepic.url}}" height='400' alt="No Image">
+            <img  class="profpic" src="{{profile.profilepic.url}}" height='400' width="50" alt="No Image">
             {% else %}
             <div >
-                <img  class="profpic" src="https://www.w3schools.com/howto/img_avatar.png" alt="card image cap">
+                <img  class="profpic" src="https://www.w3schools.com/howto/img_avatar.png" width="300" alt="card image cap">
             </div>
 
             {% endif %}
         </div>
-        <div class="col-md-4 offset-md-7">
+        <div class="col-md-2">
             <div class="row">
                 <h1>Name:{{profile.user.username}}</h1>
                 <h1>Email:{{profile.user.email}}</h1>
                 <!--<a href="" class="btn btn-light" >Edit Profile</a>-->
             </div>
+        </div>
         </div>
         <div class="offset-md-3">
             <div class="row">
@@ -40,7 +42,9 @@
 </div>
 <h1 class="offset-md-5">Posts</h1>
 <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-5 offset-md-2">
+            <div class="jumbotron">
+
         {% if posts %}
         {% for post in posts %}
 
@@ -62,6 +66,15 @@
         <p>You have not posted Yet</p>
     </div>
     {% endif %}
+</div>
+    <div class="col-md-3 offset-md-1">
+        <div class="card border-success mb-3">
+            <div class="card-header">My Chatrooms</div>
+            <div class="card-body text-success">
+                <a href="#" class="card-text">Chatroom A</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
