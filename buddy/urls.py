@@ -8,6 +8,7 @@ urlpatterns=[
     url('^chatroom/(\w+)', views.chatroom, name='chatroom'),
     # url('^gym/(\w+)', views.gym, name='gym'),
     url('^post/(\w+)$', views.post, name='post'),
+    url('^forms/$', views.forms, name='forms'),
 
     url('^update/$', views.update, name='update'),
     url('^newgym/$', views.newgym, name='newgym'),

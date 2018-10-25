@@ -65,6 +65,7 @@ def update(request):
 @login_required(login_url='/accounts/login/')
 def chatroom(request,room_id):
     current_user = request.user
+    form = ChatPostForm()
 
     chatroom = get_object_or_404(Chatroom,pk=room_id)
     chatrooms = request.user.profile.chatroom.all()
@@ -72,7 +73,8 @@ def chatroom(request,room_id):
     posts = Post.objects.filter(chatroom=chatroom)
     if chatroom in chatrooms:
         r = chatroom
-        return render(request, 'chatroom.html', {'chatroom': r})
+        return render(request, 'chatroom.html', {'chatroom': r,'form':form})
+
     # for room in chatrooms:
     #     r = None
     #     if room == chatroom.id:
@@ -108,16 +110,14 @@ def post(request, id):
     print(id)
     # new_post = Post()
     if request.method == 'POST':
-        newpost = PostF(request.POST)
+        newpost = PostForm(request.POST)
         if newpost.is_valid():
-            title = newpost.cleaned_data['post_title']
-            post = newpost.cleaned_data['post_post']
-            new_post = Post(title = title,post=post)
-            new_post.poster = request.user
-            new_post.chatroom = chatroom
-            new_post.save()
-            return redirect('index')
-    return redirect('index')
+            newpost.poster = request.user
+            newpost.chatroom = chatroom
+            newpost.save()
+        return redirect('index')
+
+
 
 
 
@@ -191,9 +191,9 @@ def newchatroom(request):
         return redirect('index')
 
 
-    else:
-        NewChatForm = ChatForm()
-    return render(request, 'forms/newchat.html', {"newChatForm": NewChatForm})
+    # else:
+    #     NewChatForm = ChatForm()
+    # return render(request, 'forms/newchat.html', {"newChatForm": NewChatForm})
 
 
 def profilechatrooms(request):
@@ -220,9 +220,9 @@ def newgym(request):
         return redirect('index')
 
 
-    else:
-        NewGymForm = RegGym()
-    return render(request,'forms/newgym.html', {"newGymForm": NewGymForm})
+    # else:
+    #     NewGymForm = RegGym()
+    # return render(request,'forms/newgym.html', {"newGymForm": NewGymForm})
 
 
 
@@ -242,3 +242,9 @@ def joinchat(request,id):
     current_user.profile.save()
 
     return redirect('index')
+
+def forms(request):
+    NewGymForm = RegGym()
+    NewChatForm = ChatForm()
+
+    return render(request,'forms/forms.html',{'newGymForm':NewGymForm,'newChatForm':NewChatForm})

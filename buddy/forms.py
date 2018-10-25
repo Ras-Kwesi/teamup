@@ -51,10 +51,10 @@ class LiftSession(forms.ModelForm):
         exclude = ['benchpress','squats','profile']
 
 
-class PostForm(forms.ModelForm):
+class ChatPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['chatroom','poster']
+        exclude = ['chatroom','poster','gym']
 
 
 class PostF(forms.Form):
