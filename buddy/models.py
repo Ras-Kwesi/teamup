@@ -36,7 +36,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=100, blank=True)
     profilepic = models.ImageField(upload_to='picture/',blank=True)
     contact = models.CharField(max_length=15,blank=True)
-    mygym = models.ForeignKey(Gym,related_name='mygym',blank=True)
+    mygym = models.ForeignKey(Gym,related_name='mygym',blank=True,null=True)
     weight = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
     chatroom = models.ManyToManyField(Chatroom)

@@ -29,12 +29,10 @@ def profile(request):
 
     profile = Profile.objects.get(user=current_user)
     print(profile)
+    posts = Post.objects.filter(poster = current_user)
     # profile = Profile.objects.filter(user=request.user.id)
 
-
-    return render(request, 'profile/profile.html', {'profile': profile})
-
-
+    return render(request, 'profile/profile.html', {'profile': profile,'posts':posts})
 
 
 @login_required(login_url='/accounts/login/')
@@ -100,9 +98,9 @@ def joinchat(request,id):
 
 def joingym(request,id):
     current_user = request.user
-    hood_name = current_user.profile.hood
-    chat = Chatroom.objects.get(id=id)
-    current_user.profile. = hood
+    # hood_name = current_user.profile.hood
+    gym = Gym.objects.get(id=id)
+    current_user.profile.mygym = gym
     current_user.profile.save()
 
     return redirect('index')

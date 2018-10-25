@@ -5,7 +5,7 @@ class EditProfile(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = []
-        fields = ['profilepic','bio','contact','hood']
+        fields = ['profilepic','bio','contact',]
 
 
 class EditUser(forms.ModelForm):
