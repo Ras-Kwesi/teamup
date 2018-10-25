@@ -95,14 +95,16 @@ def chatroom(request,room_id):
 #     chatroom = Chatroom.objects.get(id=id)
 #     print(id)
 #     if request.method == 'POST':
-#         post = PostForm(request.POST)
+#         post = ChatPostForm(request.POST)
 #         if post.is_valid():
 #             posting = post.save(commit=False)
 #             posting.poster = request.user
 #             posting.chatroom = chatroom
 #             posting.save()
-#             return redirect('index')
-#     return redirect('index')
+#         return redirect('index')
+#     else:
+#         post = ChatPostForm()
+#     return render(request,'forms/newchat.html',{'newChatForm':post})
 
 def post(request, id):
     chatroom = Chatroom.objects.get(id=id)
@@ -111,10 +113,12 @@ def post(request, id):
     if request.method == 'POST':
         newpost = ChatPostForm(request.POST,request.FILES)
         if newpost.is_valid():
-            newpost.save(commit=False)
-            newpost.poster = request.user
-            newpost.chatroom = chatroom
-            newpost.save()
+            post = newpost.save(commit=False)
+            post.poster = request.user
+            post.chatroom = chatroom
+            print(post.poster)
+            post.save()
+            return redirect('index')
         return redirect('index')
 
 
