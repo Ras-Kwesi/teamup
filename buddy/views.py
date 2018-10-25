@@ -154,7 +154,7 @@ def newchatroom(request):
 
             # request.session.modified = True
             # current_user.profile.hood = hoodform.id
-        # return redirect('profilehood',hoodform.name)
+        # return redirect('profilehood' + hoodform.name)
         return redirect('index')
 
 
@@ -177,7 +177,7 @@ def newgym(request):
         NewGymForm = RegGym(request.POST)
         if NewGymForm.is_valid():
             gymform = NewGymForm.save(commit=False)
-            gymform.admin = current_user
+            gymform.owner = current_user
             gymform.save()
             print('saved')
 
@@ -189,7 +189,7 @@ def newgym(request):
 
     else:
         NewGymForm = RegGym()
-    return render(request, 'newhood.html', {"newGymForm": NewGymForm})
+    return render(request,'forms/newgym.html', {"newGymForm": NewGymForm})
 
 
 

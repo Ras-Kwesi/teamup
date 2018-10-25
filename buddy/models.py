@@ -6,13 +6,13 @@ from django.db.models.signals import post_save
 # Create your models here.
 class Gym(models.Model):
     name = models.CharField(max_length=20)
-    number = models.IntegerField(default=0)
+    description = models.TextField(max_length=100)
     owner = models.ForeignKey(User,related_name='owner')
 
 
 class Chatroom(models.Model):
     name = models.CharField(max_length=20,unique=True)
-    info = models.CharField(max_length=40,default = '')
+    info = models.TextField(max_length=100)
     admin = models.ForeignKey(User,related_name='administrate')
 
     def save_chatroom(self):

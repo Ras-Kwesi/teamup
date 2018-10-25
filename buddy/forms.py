@@ -24,7 +24,7 @@ class ChatForm(forms.ModelForm):
 class RegGym(forms.ModelForm):
     class Meta:
         model = Gym
-        exclude = []
+        exclude = ['owner']
 
 
 class RunSession(forms.ModelForm):
