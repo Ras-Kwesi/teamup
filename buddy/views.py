@@ -74,7 +74,7 @@ def post(request, id):
 def joinchat(request,id):
     current_user = request.user
     chat = Chatroom.objects.get(id=id)
-    current_user.profile. = hood
+
     current_user.profile.save()
 
     return redirect('index')

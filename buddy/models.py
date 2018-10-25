@@ -56,12 +56,20 @@ class Profile(models.Model):
 
 class Friend(models.Model):
     users = models.ManyToManyField(User)
+    current_user = models.ForeignKey(User,related_name="owner",null=True)
 
+    @classmethod
+    def addfriend(cls,current_user,other_user):
+        friend, created = cls.objects.get_or_create(
+            current_user = current_user
+        )
+        friend.users.add(other_user)
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
     post = models.TextField(max_length=100)
-    chatroom = models.ForeignKey(Chatroom,related_name='hood')
+    chatroom = models.ForeignKey(Chatroom,related_name='hood',null=True)
+    gym = models.ForeignKey(Gym,related_name='gym',null=True)
     poster = models.ForeignKey(User,on_delete=models.CASCADE)
 
 
@@ -79,7 +87,7 @@ class Post(models.Model):
 class Comment(models.Model):
     comment = models.CharField(max_length=100)
     commentator = models.ForeignKey(User)
-    comment_gym = models.ForeignKey(Gym,related_name='comment',null=True)
+    comment_post = models.ForeignKey(Post,related_name='comment',null=True)
 
     def save_comment(self):
         self.save()
