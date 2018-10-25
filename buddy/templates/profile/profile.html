@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <h1>Name: {{profile.user.username}}</h1>
+                <h1>Name: {{profile.user.first_name}} {{profile.user.last_name}} </h1>
                 <h1>Email: {{profile.user.email}}</h1>
                 <a href="/update" class="btn btn-danger" >Edit Profile</a>
             </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="offset-md-3">
             <div class="row">
-                <p>{{profile.user.profile.bio}}</p>
+                <p class="profbio">{{profile.user.profile.bio}}</p>
             </div>
         </div>
 
