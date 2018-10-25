@@ -5,6 +5,24 @@ from .models import *
 from .forms import *
 
 # Create your views here.
+def index(request):
+    # current_user = request.user
+    # hood_name = current_user.profile.hood
+    # if current_user.profile.hood is None:
+        # hoods = Hood.objects.all()
+        # return redirect('communities')
+
+    # else:
+        # return redirect('/hood/',hood_id =hood_id)
+
+
+    # posts = Post.objects.all()
+
+
+    return render(request,'index.html',{})
+
+
+
 @login_required(login_url='/accounts/login/')
 def profile(request):
     current_user = request.user
@@ -90,6 +108,20 @@ def joingym(request,id):
     return redirect('index')
 
 
+def comment(request,id):
+    post = Post.objects.get(id=id)
+    print(id)
+    if request.method == 'POST':
+        comm=NewComment(request.POST)
+        if comm.is_valid():
+            comment=comm.save(commit=False)
+            comment.commentator = request.user
+            comment.comment_post = post
+            comment.save()
+            return redirect('index')
+    return redirect('index')
+
+
 
 def exitgym(request,id):
     current_user = request.user
@@ -160,3 +192,13 @@ def newgym(request):
     else:
         NewGymForm = RegGym()
     return render(request, 'newhood.html', {"newGymForm": NewGymForm})
+
+
+
+def change_friends(request,operation,pk):
+    new_friend = User.objects.get(pk = pk)
+    if operation == 'addfriend':
+        Friend.addfriend(request.user,new_friend)
+    elif operation == 'removefriend':
+        Friend.removefriend(request.user,new_friend)
+

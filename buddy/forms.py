@@ -55,3 +55,8 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         exclude = ['chatroom','poster']
+
+class NewComment(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['commentator','comment_post']

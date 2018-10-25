@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 class Gym(models.Model):
     name = models.CharField(max_length=20)
     number = models.IntegerField(default=0)
-    owner = models.ForeignKey("User",related_name='owner')
+    owner = models.ForeignKey(User,related_name='owner')
 
 
 class Chatroom(models.Model):
@@ -56,7 +56,7 @@ class Profile(models.Model):
 
 class Friend(models.Model):
     users = models.ManyToManyField(User)
-    current_user = models.ForeignKey(User,related_name="owner",null=True)
+    current_user = models.ForeignKey(User,related_name="befriend",null=True)
 
     @classmethod
     def addfriend(cls,current_user,other_user):
@@ -64,6 +64,18 @@ class Friend(models.Model):
             current_user = current_user
         )
         friend.users.add(other_user)
+
+    @classmethod
+    def removefriend(cls,current_user,other_user):
+        friend, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        friend.users.remove(other_user)
+
+    # @classmethod
+    # def get_friends(cls,current_user):
+    #     friend, s =
+
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
