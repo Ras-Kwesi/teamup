@@ -6,8 +6,7 @@ from .forms import *
 
 # Create your views here.
 def index(request):
-    # current_user = request.user
-    # hood_name = current_user.profile.hood
+    current_user = request.user
     # if current_user.profile.hood is None:
         # hoods = Hood.objects.all()
         # return redirect('communities')
@@ -110,8 +109,9 @@ def post(request, id):
     print(id)
     # new_post = Post()
     if request.method == 'POST':
-        newpost = PostForm(request.POST)
+        newpost = ChatPostForm(request.POST,request.FILES)
         if newpost.is_valid():
+            newpost.save(commit=False)
             newpost.poster = request.user
             newpost.chatroom = chatroom
             newpost.save()
@@ -191,9 +191,9 @@ def newchatroom(request):
         return redirect('index')
 
 
-    # else:
-    #     NewChatForm = ChatForm()
-    # return render(request, 'forms/newchat.html', {"newChatForm": NewChatForm})
+    else:
+        NewChatForm = ChatForm()
+    return render(request, 'forms/newchat.html', {"newChatForm": NewChatForm})
 
 
 def profilechatrooms(request):
@@ -220,9 +220,9 @@ def newgym(request):
         return redirect('index')
 
 
-    # else:
-    #     NewGymForm = RegGym()
-    # return render(request,'forms/newgym.html', {"newGymForm": NewGymForm})
+    else:
+        NewGymForm = RegGym()
+    return render(request,'forms/newgym.html', {"newGymForm": NewGymForm})
 
 
 

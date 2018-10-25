@@ -3,28 +3,30 @@
 {% block content %}
 
 <div class="{{chatroom.name}}">
-        <h4>{{chatroom.name}}</h4>
+    <h4>{{chatroom.name}}</h4>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        {% for post in chatroom.posts.all %}
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4 id="chatroom_post_header">{{post.title}}</h4>
+                <p id>>{{chatroom.post}}</p>
+                <a href="/userprofile/{{post.poster.id.}}">{{post.poster.username}}</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-{% for post in chatroom.posts.all %}
- <div class="col-md-6">
-     <div class="jumbotron">
-         <h4 id="chatroom_post_header">{{post.title}}</h4>
-         <p id>>{{chatroom.post}}</p>
-         <a href="/userprofile/{{post.poster.id.}}">{{post.poster.username}}</a>
-     </div>
- </div>
+    <div class="col-md-4">
+    <form  action="/post/{{chatroom.id}}" method="post" enctype="multipart/form-data">
+        {% csrf_token%}
 
-{% endfor %}
-
-<form  action="/post/{{chatroom.id}}" method="post" enctype="multipart/form-data">
-    {% csrf_token%}
-
-    {% bootstrap_form form %}
-    <input type="submit" class="btn btn-success btn-lg" value="Post">
-  </form>
-
-   {% block scripts %}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  {% bootstrap_javascript %} {% endblock %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-success btn-lg" value="Post">
+    </form>
+</div>
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% bootstrap_javascript %} {% endblock %}
 {% endblock %}
