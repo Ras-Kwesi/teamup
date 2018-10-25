@@ -30,9 +30,11 @@ def profile(request):
     profile = Profile.objects.get(user=current_user)
     print(profile)
     posts = Post.objects.filter(poster = current_user)
+    chatrooms = current_user.profile.chatroom.all()
+    print(chatrooms)
     # profile = Profile.objects.filter(user=request.user.id)
 
-    return render(request, 'profile/profile.html', {'profile': profile,'posts':posts})
+    return render(request, 'profile/profile.html', {'profile': profile,'posts':posts,'chatrooms':chatrooms})
 
 
 @login_required(login_url='/accounts/login/')
@@ -67,7 +69,7 @@ def chatroom(request,room_id):
     chatroom = get_object_or_404(Chatroom,pk=room_id)
     chatrooms = request.user.profile.chatroom.all()
     print(chatroom)
-
+    posts = Post.objects.filter(chatroom=chatroom)
     if chatroom in chatrooms:
         r = chatroom
         return render(request, 'chatroom.html', {'chatroom': r})

@@ -71,7 +71,9 @@
         <div class="card border-success mb-3">
             <div class="card-header">My Chatrooms</div>
             <div class="card-body text-success">
-                <a href="#" class="card-text">Chatroom A</a>
+                {% for chatroom in chatrooms %}
+                <a href="/chatroom/{{chatroom.id}}" class="card-text">{{chatroom.name}}</a>
+                {% endfor %}
             </div>
         </div>
     </div>
