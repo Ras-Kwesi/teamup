@@ -14,7 +14,7 @@ def profile(request):
     # profile = Profile.objects.filter(user=request.user.id)
 
 
-    return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'profile/profile.html', {'profile': profile})
 
 
 
@@ -37,7 +37,7 @@ def update(request):
     else:
         user_form = EditUser(instance=request.user)
         profile_form = EditProfile(instance=current_user.profile)
-    return render(request, 'update_profile.html', {
+    return render(request, 'profile/update_profile.html', {
         "user_form": user_form,
         "profile_form": profile_form,
         'gym_name': gym_name
@@ -73,7 +73,6 @@ def post(request, id):
 
 def joinchat(request,id):
     current_user = request.user
-    gym_name = current_user.profile.mygym
     chat = Chatroom.objects.get(id=id)
     current_user.profile. = hood
     current_user.profile.save()
@@ -92,27 +91,35 @@ def joingym(request,id):
 
 
 
-def exit(request,id):
+def exitgym(request,id):
     current_user = request.user
     # hood_name = current_user.profile.hood
     # hood = Hood.objects.get(id=id)
-    current_user.profile.hood = None
+    current_user.profile.mygym = None
+    current_user.profile.save()
+
+    return redirect('index')
+
+
+def exitchatroom(request,id):
+    current_user = request.user
+    # hood_name = current_user.profile.hood
+    # hood = Hood.objects.get(id=id)
+    current_user.profile.chatroom = None
     current_user.profile.save()
 
     return redirect('index')
 
 
 @login_required(login_url='/accounts/login/')
-def newhood(request):
+def newchatroom(request):
     current_user = request.user
-    hood_name = current_user.profile.hood
     if request.method == 'POST':
-        NewHoodForm = NewHood(request.POST)
-        if NewHoodForm.is_valid():
-            hoodform = NewHoodForm.save(commit=False)
-            hoodform.admin = current_user
-            current_user.profile.hoodpin = True
-            hoodform.save()
+        NewChatForm = ChatForm(request.POST)
+        if NewChatForm.is_valid():
+            chatform = NewChatForm.save(commit=False)
+            chatform.admin = current_user
+            chatform.save()
             print('saved')
 
             # request.session.modified = True
@@ -122,16 +129,34 @@ def newhood(request):
 
 
     else:
-        NewHoodForm = NewHood()
-    return render(request, 'newhood.html', {"newHoodForm": NewHoodForm,
-                                            'hood_name': hood_name})
+        NewChatForm = ChatForm()
+    return render(request, 'forms/newchat.html', {"newChatForm": NewChatForm})
 
 
-def profilehood(request,name):
+def profilechatrooms(request):
     current_user = request.user
-    hood_name = current_user.profile.hood
-    hoodform = Hood.objects.get(name = name)
-    current_user.profile.hood = hoodform.id
-    current_user.profile.hoodpin = True
+    chatrooms = current_user.profile.chatroom.all()
 
     return redirect('index')
+
+
+@login_required(login_url='/accounts/login/')
+def newgym(request):
+    current_user = request.user
+    if request.method == 'POST':
+        NewGymForm = RegGym(request.POST)
+        if NewGymForm.is_valid():
+            gymform = NewGymForm.save(commit=False)
+            gymform.admin = current_user
+            gymform.save()
+            print('saved')
+
+            # request.session.modified = True
+            # current_user.profile.hood = hoodform.id
+        # return redirect('profilehood',hoodform.name)
+        return redirect('index')
+
+
+    else:
+        NewGymForm = RegGym()
+    return render(request, 'newhood.html', {"newGymForm": NewGymForm})

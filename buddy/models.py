@@ -27,9 +27,9 @@ class Chatroom(models.Model):
         return hood
 
 
-class Member(models.Model):
-    user = models.ForeignKey(User,related_name='member')
-    chatroom = models.ForeignKey(Chatroom,related_name='chatroom')
+# class Member(models.Model):
+#     user = models.ForeignKey(User,related_name='member')
+#     chatroom = models.ForeignKey(Chatroom,related_name='chatroom')
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -39,6 +39,7 @@ class Profile(models.Model):
     mygym = models.ForeignKey(Gym,related_name='mygym',blank=True)
     weight = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
+    chatroom = models.ManyToManyField(Chatroom)
 
     @receiver(post_save,sender=User)
     def create_user_profile(sender,instance,created,**kwargs):
@@ -51,6 +52,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Friend(models.Model):
+    users = models.ManyToManyField(User)
 
 
 class Post(models.Model):

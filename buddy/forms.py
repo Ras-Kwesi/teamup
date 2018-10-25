@@ -15,7 +15,7 @@ class EditUser(forms.ModelForm):
         fields = ['first_name','last_name', 'email']
 
 
-class Chatroom(forms.ModelForm):
+class ChatForm(forms.ModelForm):
     class Meta:
         model = Chatroom
         exclude = ['admin']
