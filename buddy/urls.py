@@ -5,15 +5,18 @@ urlpatterns=[
     url('^$',views.index,name='index'),
     # url('^search/',views.search,name='search'),
     url('profile/$', views.profile, name='profile'),
-    url('^chatroom/(\w+)', views.chatroom, name='chatroom'),
+    url('^chatroom/(\w+)$', views.chatroom, name='chatroom'),
     # url('^gym/(\w+)', views.gym, name='gym'),
     url('^post/(\w+)$', views.post, name='post'),
     url('^forms/$', views.forms, name='forms'),
+    url('^people/$', views.people, name='people'),
 
     url('^update/$', views.update, name='update'),
     url('^newgym/$', views.newgym, name='newgym'),
     url('^newchatroom/$', views.newchatroom, name='newchatroom'),
     url('^chatrooms/$', views.chatrooms, name='chatrooms'),
+    url('stalk/(\d+)$', views.stalk, name='stalk'),
+
 
     url('^comment/(\d+)', views.comment, name='comment'),
     url('^joinchat/(\d+)', views.joinchat, name='joinchat'),

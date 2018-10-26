@@ -19,7 +19,9 @@
             <div class="row">
                 <h1>Name: {{profile.user.first_name}} {{profile.user.last_name}} </h1>
                 <h1>Email: {{profile.user.email}}</h1>
+                {% if current.user is profile.user %}
                 <a href="/update" class="btn btn-danger" >Edit Profile</a>
+                {% endif %}
             </div>
         </div>
         </div>
@@ -56,6 +58,7 @@
                 {% else %}
                 <h1 class="card-title">{{post.gym.name}}</h1>
                 {% endif %}
+
                 <a class="btn btn-danger" href="/updatebiz/{{business.id}}">Update</a>
             </div>
         </div>
@@ -67,15 +70,20 @@
     </div>
     {% endif %}
 </div>
-    <div class="col-md-4 offset-md-1">
+    <div class="col-md-3 offset-md-">
+        <div class="column">
         <div class="card border-success mb-3">
             <div class="card-header">My Chatrooms</div>
             <div class="card-body text-success">
                 {% for chatroom in chatrooms %}
                 <a href="/chatroom/{{chatroom.id}}" class="card-text">{{chatroom.name}}</a>
+                <br>
+                                <br>
+
                 {% endfor %}
             </div>
         </div>
+    </div>
     </div>
 </div>
 

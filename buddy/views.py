@@ -22,18 +22,7 @@ def index(request):
 
 
 
-@login_required(login_url='/accounts/login/')
-def profile(request):
-    current_user = request.user
 
-    profile = Profile.objects.get(user=current_user)
-    print(profile)
-    posts = Post.objects.filter(poster = current_user)
-    chatrooms = current_user.profile.chatroom.all()
-    print(chatrooms)
-    # profile = Profile.objects.filter(user=request.user.id)
-
-    return render(request, 'profile/profile.html', {'profile': profile,'posts':posts,'chatrooms':chatrooms})
 
 
 @login_required(login_url='/accounts/login/')
@@ -252,3 +241,38 @@ def forms(request):
     NewChatForm = ChatForm()
 
     return render(request,'forms/forms.html',{'newGymForm':NewGymForm,'newChatForm':NewChatForm})
+
+
+@login_required(login_url='/accounts/login/')
+def stalk(request,profile_id):
+    stalked_user = User.objects.get(pk=profile_id)
+    stalked_profile = Profile.objects.get(user_id=profile_id)
+
+    # profile = Profile.objects.get(user=stalked_user)
+    # print(profile)
+    posts = Post.objects.filter(poster=stalked_user)
+    chatrooms = stalked_user.profile.chatroom.all()
+    print(chatrooms)
+    # profile = Profile.objects.filter(user=request.user.id)
+
+    return render(request, 'profile/profile.html', {'profile': stalked_profile, 'posts': posts, 'chatrooms': chatrooms})
+
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    current_user = request.user
+
+    profile = Profile.objects.get(user=current_user)
+    print(profile)
+    posts = Post.objects.filter(poster = current_user)
+    chatrooms = current_user.profile.chatroom.all()
+    print(chatrooms)
+    # profile = Profile.objects.filter(user=request.user.id)
+
+    return render(request, 'profile/profile.html', {'profile': profile,'posts':posts,'chatrooms':chatrooms})
+
+
+def people(request):
+    people = User.objects.all()
+
+    return render(request,'people.html',{'people':people})
